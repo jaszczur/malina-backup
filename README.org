@@ -1,5 +1,13 @@
-* ledger-asset-prices
+* malina-backup
 
 ** Usage
 
+#+begin_example
+./malina-backup /home/pi/IOTstack /var/backups
+#+end_example
+
+
 ** Installation
+
+1. Install all dependencies
+2. Run ~make~
