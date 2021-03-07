@@ -5,7 +5,7 @@
   :license "MIT"
   :version "0.0.1"
 
-  :depends-on ("external-program")
+  :depends-on ("uiop" "alexandria" "local-time")
 
   :in-order-to ((asdf:test-op (asdf:test-op :malina-backup/test)))
 
@@ -19,7 +19,7 @@
   :build-operation program-op
   :build-pathname "malina-backup"
   :entry-point "malina-backup.main:main"
-  :depends-on (:malina-backup)
+  :depends-on ("malina-backup" "uiop")
   :serial t
   :components ((:file "package.exec")
                (:module "src"
@@ -33,7 +33,7 @@
   :author "Piotr Jaszczyk <piotr.jaszczyk@gmail.com>"
   :license "MIT"
 
-  :depends-on (:malina-backup :1am)
+  :depends-on ("malina-backup" "1am")
 
   :serial t
   :components ((:file "package.test")

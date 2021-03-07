@@ -1,4 +1,4 @@
 (defpackage :malina-backup
-  (:use :cl :external-program)
-  (:export
-   :do-backup))
+  (:use #:cl)
+  (:import-from #:alexandria #:with-gensyms)
+  (:export #:do-backup))

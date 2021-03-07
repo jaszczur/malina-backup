@@ -1,3 +1,3 @@
-(ql:quickload :ledger-asset-prices)
-(time (asdf:test-system :ledger-asset-prices))
+(ql:quickload :malina-backup)
+(time (asdf:test-system :malina-backup))
 (quit)
