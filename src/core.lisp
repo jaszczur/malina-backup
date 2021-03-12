@@ -1,5 +1,10 @@
 (in-package :malina-backup)
 
+(defun log-info (msg &rest args)
+  (apply #'format (append (list t msg) args))
+  (format t "~%")
+  (force-output))
+
 (defmacro with-cwd (dir &body body)
   (with-gensyms (original-directory)
     `(if ,dir
@@ -25,13 +30,21 @@
 
 (defun do-backup (iot-stack-dir target-dir)
   (let ((bkp-archive (backup-file target-dir)))
-    (format t "Performing backup of ~a to ~a.~%" iot-stack-dir bkp-archive)
-    (force-output)
-    (mkdir target-dir)
-    (run! (list "tar" "zcvf" (namestring bkp-archive) (namestring iot-stack-dir)))))
+    (log-info "Performing backup of ~a to ~a.~%" iot-stack-dir bkp-archive)
+
+    (unwind-protect
+         (progn
+           (log-info "Stopping services...")
+           (run! '("docker-compose" "down") :cwd iot-stack-dir)
+           (mkdir target-dir)
+           (log-info "Creating archive...")
+           (run! (list "tar" "zcvf" (namestring bkp-archive) (namestring iot-stack-dir))))
+      (log-info "Starting services...")
+      (run! '("docker-compose" "up" "-d") :cwd iot-stack-dir))))
 
 #+nil
 (progn
   (asdf:load-system :malina-backup)
   (do-backup (pathname "/tmp/IOTStack/")  (pathname "/tmp/iots-bak/"))
+
   )
